@@ -1,3 +1,23 @@
 Facebook Connect Warden Strategy
 ================================
 
+A warden strategy for authenticating users with Facebook Connect.  Users are considered authenticated if they have a valid fbs_* cookie.
+
+Usage
+-----
+
+Make sure that all of the gems in the default group in the Gemfile are also in your project and require facebook.rb. If you're using ActiveRecord have you user model extend Warden::Facebook::User.  Otherwise you'll need to add a class method load_from_facebook.
+
+    class User < ActiveRecord::Base
+      extend Warden::Facebook::User
+    end
+    
+Running the tests
+-----------------
+
+    bundle exec ruby test/facebook_connect_test.rb
+    
+Shortcomings
+------------
+
+This is an extraction from a project of mine and has not really been generalized.  I may package it up nicely at some time in the future but until then consider it a sketch.  
