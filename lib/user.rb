@@ -4,7 +4,7 @@ module Warden
   module Facebook
     module User
       def load_from_facebook(access_token)
-        fb_user = RestClient.get("https://graph.facebook.com/me?access_token=#{URI.escape(access_token)}") { |u| JSON.parse(u) }
+        fb_user = JSON.parse(RestClient.get("https://graph.facebook.com/me?access_token=#{URI.escape(access_token)}").to_s)
         User.create(
           :uid => fb_user['id'],
           :email => fb_user['email'],
