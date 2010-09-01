@@ -15,8 +15,9 @@ module Warden
 
       def authenticate!
         fail!('unauthenticated') unless signature_valid?
-        facebook_id = facebook_session_cookie['uid']
-        user = user_model.where(:uid => facebook_id).first || user_model.load_from_facebook(facebook_session_cookie['access_token'])
+        facebook_id = facebook_session_cookie['uid'].to_i.to_s #mangled json returns id with a hanging double quote, .to_i drops that
+        access_token = facebook_session_cookie['access_token'] || facebook_session_cookie['"access_token'] #hooray for malformed json
+        user = user_model.where(:uid => facebook_id).first || user_model.load_from_facebook(access_token)
         success!(user)
       end
 
